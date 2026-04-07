@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda de Zapatillas</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; }
+        header { text-align: center; padding: 40px; background: #2c3e50; color: white; border-radius: 10px; margin-bottom: 30px; }
+        .grid-tienda { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .tarjeta { background: white; border-radius: 15px; overflow: hidden; shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; border: 1px solid #ddd; }
+        .tarjeta:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+        .tarjeta img { width: 100%; height: 200px; object-fit: cover; }
+        .info { padding: 15px; text-align: center; }
+        .precio { color: #27ae60; font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
+        .boton { display: inline-block; padding: 10px 20px; background: #3498db; color: white; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🔥 Ofertas del Día en Zapatillas</h1>
+        <p>Productos extraídos automáticamente desde MercadoLibre RD</p>
+    </header>
+
+    <div class="grid-tienda">
+        <div class="tarjeta">
+            <img src="fotos_finales/Tennis adidas Mens 510 Trailcross.jpg" alt="Zapatilla">
+            <div class="info">
+                <h3>Tennis Adidas Trailcross</h3>
+                <p class="precio">$11,495</p>
+                <a href="#" class="boton">Ver Detalles</a>
+            </div>
+        </div>
+
+        </div>
+
+</body>
+</html>
