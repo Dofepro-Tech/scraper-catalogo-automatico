@@ -1,39 +1,177 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Tienda de Zapatillas</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; }
-        header { text-align: center; padding: 40px; background: #2c3e50; color: white; border-radius: 10px; margin-bottom: 30px; }
-        .grid-tienda { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .tarjeta { background: white; border-radius: 15px; overflow: hidden; shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; border: 1px solid #ddd; }
-        .tarjeta:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
-        .tarjeta img { width: 100%; height: 200px; object-fit: cover; }
-        .info { padding: 15px; text-align: center; }
-        .precio { color: #27ae60; font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
-        .boton { display: inline-block; padding: 10px 20px; background: #3498db; color: white; text-decoration: none; border-radius: 5px; }
-    </style>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Scraper y Catalogo Automatico | Demo Web</title>
+        <meta
+            name="description"
+            content="Demo pública de un scraper en Python que extrae productos, genera un catalogo HTML y muestra el resultado en una interfaz navegable."
+        />
+        <style>
+            :root {
+                --bg: #081325;
+                --surface: rgba(14, 28, 50, 0.88);
+                --surface-soft: rgba(255, 255, 255, 0.08);
+                --text: #eef4ff;
+                --text-soft: #b7c5dc;
+                --accent: #33a0ff;
+                --accent-strong: #2dd4bf;
+                --border: rgba(255, 255, 255, 0.12);
+            }
 
-    <header>
-        <h1>🔥 Ofertas del Día en Zapatillas</h1>
-        <p>Productos extraídos automáticamente desde MercadoLibre RD</p>
-    </header>
+            * {
+                box-sizing: border-box;
+            }
 
-    <div class="grid-tienda">
-        <div class="tarjeta">
-            <img src="fotos_finales/Tennis adidas Mens 510 Trailcross.jpg" alt="Zapatilla">
-            <div class="info">
-                <h3>Tennis Adidas Trailcross</h3>
-                <p class="precio">$11,495</p>
-                <a href="#" class="boton">Ver Detalles</a>
-            </div>
-        </div>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                font-family: "Segoe UI", sans-serif;
+                color: var(--text);
+                background:
+                    radial-gradient(circle at top left, rgba(51, 160, 255, 0.22), transparent 28%),
+                    radial-gradient(circle at bottom right, rgba(45, 212, 191, 0.18), transparent 24%),
+                    linear-gradient(180deg, #081325 0%, #09101d 100%);
+            }
 
-        </div>
+            .wrap {
+                width: min(1100px, calc(100% - 2rem));
+                margin: 0 auto;
+                padding: 3rem 0 4rem;
+            }
 
-</body>
+            .hero {
+                display: grid;
+                gap: 1.5rem;
+                padding: 2rem;
+                border: 1px solid var(--border);
+                border-radius: 28px;
+                background: var(--surface);
+                backdrop-filter: blur(14px);
+            }
+
+            .eyebrow {
+                margin: 0;
+                color: var(--accent-strong);
+                font-size: 0.78rem;
+                font-weight: 700;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+            }
+
+            h1 {
+                margin: 0;
+                font-size: clamp(2rem, 6vw, 4rem);
+                line-height: 1.02;
+            }
+
+            p {
+                margin: 0;
+                color: var(--text-soft);
+                font-size: 1.05rem;
+                line-height: 1.7;
+            }
+
+            .actions,
+            .meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.85rem;
+            }
+
+            .button,
+            .meta span {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.85rem 1.1rem;
+                border-radius: 999px;
+                text-decoration: none;
+            }
+
+            .button-primary {
+                background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+                color: #03101e;
+                font-weight: 700;
+            }
+
+            .button-secondary {
+                border: 1px solid var(--border);
+                color: var(--text);
+            }
+
+            .meta span {
+                border: 1px solid var(--border);
+                background: var(--surface-soft);
+                color: var(--text-soft);
+            }
+
+            .preview {
+                display: grid;
+                gap: 1rem;
+                margin-top: 1.5rem;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+
+            .card {
+                padding: 1.1rem;
+                border: 1px solid var(--border);
+                border-radius: 20px;
+                background: rgba(255, 255, 255, 0.04);
+            }
+
+            .card h2 {
+                margin: 0 0 0.5rem;
+                font-size: 1.05rem;
+            }
+
+            @media (max-width: 640px) {
+                .wrap {
+                    padding-top: 1.2rem;
+                }
+
+                .hero {
+                    padding: 1.25rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main class="wrap">
+            <section class="hero">
+                <p class="eyebrow">Demo publica</p>
+                <h1>Scraper y catalogo automatico con salida web visible.</h1>
+                <p>
+                    Este proyecto extrae productos, organiza datos e imagenes y genera una vista HTML lista para navegar. Aqui puedes entrar directamente al catalogo publicado o revisar el repositorio.
+                </p>
+
+                <div class="actions">
+                    <a class="button button-primary" href="tienda_automatica.html">Abrir catalogo generado</a>
+                    <a class="button button-secondary" href="https://github.com/Dofepro-Tech/scraper-catalogo-automatico" target="_blank" rel="noreferrer noopener">Ver repositorio</a>
+                </div>
+
+                <div class="meta">
+                    <span>Python + Requests + BeautifulSoup</span>
+                    <span>CSV + HTML generado</span>
+                    <span>Resultado publico navegable</span>
+                </div>
+
+                <div class="preview">
+                    <article class="card">
+                        <h2>Extraccion automatizada</h2>
+                        <p>Recolecta titulo, precio, enlace e imagen principal desde una fuente externa para construir una salida utilizable.</p>
+                    </article>
+                    <article class="card">
+                        <h2>Catalogo visual</h2>
+                        <p>Transforma la salida del scraper en una interfaz HTML simple para revisar resultados sin depender de herramientas tecnicas.</p>
+                    </article>
+                    <article class="card">
+                        <h2>Base para evolucionar</h2>
+                        <p>Puede crecer hacia monitoreo comercial, comparativas, dashboards o generacion automatica de catálogos por categoria.</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </body>
 </html>
